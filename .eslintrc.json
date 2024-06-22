@@ -3,5 +3,13 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["app/**/*.test.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

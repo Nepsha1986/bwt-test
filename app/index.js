@@ -1,7 +1,22 @@
-const a = () => {
-  const first = 0;
-  const second = 10;
-  return first + second;
-};
+const fs = require("fs");
+const path = require("path");
+const FeeCalculator = require("./FeeCalculator");
 
-a();
+const filePath = process.argv[2];
+if (!filePath) process.exit(1);
+
+const absolutePath = path.resolve(filePath);
+fs.readFile(absolutePath, "utf8", (err, data) => {
+  if (err) {
+    process.exit(1);
+  }
+
+  try {
+    const jsonData = JSON.parse(data);
+
+    const feeCalculator = new FeeCalculator(jsonData);
+    console.log(feeCalculator.cashInConfig);
+  } catch (err) {
+    process.exit(1);
+  }
+});
