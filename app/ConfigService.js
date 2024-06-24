@@ -1,4 +1,5 @@
 const axios = require("axios");
+const CashInConfigDTO = require('./dto/CashInConfigDTO');
 
 const CASH_IN = "https://developers.paysera.com/tasks/api/cash-in";
 const CASH_OUT_NATURAL =
@@ -23,7 +24,7 @@ class ConfigService {
         this.#getData(CASH_OUT_NATURAL),
         this.#getData(CASH_OUT_LEGAL),
       ]);
-      this.#feeConfig.cashIn = cashIn;
+      this.#feeConfig.cashIn = new CashInConfigDTO(cashIn);
       this.#feeConfig.cashOutNatural = cashOutNatural;
       this.#feeConfig.cashOutLegal = cashOutLegal;
     } catch (error) {
@@ -42,6 +43,9 @@ class ConfigService {
     }
   }
 
+  /**
+   * @return {CashInConfigDTO}
+   */
   get cashInConfig() {
     return this.#feeConfig.cashIn;
   }
