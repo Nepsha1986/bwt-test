@@ -7,13 +7,29 @@ const CASH_OUT_LEGAL =
   "https://developers.paysera.com/tasks/api/cash-out-juridical";
 
 class ConfigService {
-  #feeConfig = {
-    cashIn: undefined,
-    cashOutNatural: undefined,
-    cashOutLegal: undefined,
-  };
+  #feeConfig = null;
   constructor() {
-    this.#init();
+    this.#feeConfig = {
+      cashIn: undefined,
+      cashOutNatural: undefined,
+      cashOutLegal: undefined,
+    };
+  }
+
+  async init() {
+    try {
+      const [cashIn, cashOutNatural, cashOutLegal] = await Promise.all([
+        this.#getData(CASH_IN),
+        this.#getData(CASH_OUT_NATURAL),
+        this.#getData(CASH_OUT_LEGAL),
+      ]);
+      this.#feeConfig.cashIn = cashIn;
+      this.#feeConfig.cashOutNatural = cashOutNatural;
+      this.#feeConfig.cashOutLegal = cashOutLegal;
+    } catch (error) {
+      console.error("Error initializing ConfigService:", error);
+      throw error;
+    }
   }
 
   async #getData(url) {
@@ -24,30 +40,6 @@ class ConfigService {
       console.error(`Error fetching data from ${url}:`, error);
       throw error;
     }
-  }
-
-  #init() {
-    Promise.all([
-      this.#getCashInData(),
-      this.#getCashOutNaturalData(),
-      this.#getCashOutLegalData(),
-    ]).then((data) => {
-      this.#feeConfig.cashIn = data[0];
-      this.#feeConfig.cashOutNatural = data[1];
-      this.#feeConfig.cashOutLegal = data[2]
-    });
-  }
-
-  async #getCashInData() {
-    return await this.#getData(CASH_IN);
-  }
-
-  async #getCashOutNaturalData() {
-    return await this.#getData(CASH_OUT_NATURAL);
-  }
-
-  async #getCashOutLegalData() {
-    return await this.#getData(CASH_OUT_LEGAL);
   }
 
   get cashInConfig() {
