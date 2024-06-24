@@ -3,37 +3,42 @@ const CashInConfigDTO = require('./dto/CashInConfigDTO');
 
 const CASH_IN = "https://developers.paysera.com/tasks/api/cash-in";
 const CASH_OUT_NATURAL =
-  "https://developers.paysera.com/tasks/api/cash-out-natural";
+    "https://developers.paysera.com/tasks/api/cash-out-natural";
 const CASH_OUT_LEGAL =
-  "https://developers.paysera.com/tasks/api/cash-out-juridical";
+    "https://developers.paysera.com/tasks/api/cash-out-juridical";
 
 class ConfigService {
+  static #instance = null;
   #feeConfig = null;
+
+  #cashInPromise = null;
+  #cashOutNaturalPromise = null;
+  #cashOutLegalPromise = null;
+
   constructor() {
+    if (ConfigService.#instance) {
+      throw new Error("ConfigService is a singleton class and cannot be instantiated multiple times.");
+    }
     this.#feeConfig = {
-      cashIn: undefined,
-      cashOutNatural: undefined,
-      cashOutLegal: undefined,
+      cashIn: null,
+      cashOutNatural: null,
+      cashOutLegal: null,
     };
+    ConfigService.#instance = this;
   }
 
-  async init() {
-    try {
-      const [cashIn, cashOutNatural, cashOutLegal] = await Promise.all([
-        this.#getData(CASH_IN),
-        this.#getData(CASH_OUT_NATURAL),
-        this.#getData(CASH_OUT_LEGAL),
-      ]);
-      this.#feeConfig.cashIn = new CashInConfigDTO(cashIn);
-      this.#feeConfig.cashOutNatural = cashOutNatural;
-      this.#feeConfig.cashOutLegal = cashOutLegal;
-    } catch (error) {
-      console.error("Error initializing ConfigService:", error);
-      throw error;
+  /**
+   * @return {ConfigService}
+   */
+  static getInstance() {
+    if (!ConfigService.#instance) {
+      ConfigService.#instance = new ConfigService();
     }
+    return ConfigService.#instance;
   }
 
   async #getData(url) {
+    console.log(`Fetching configuration from ${url}`);
     try {
       const response = await axios.get(url);
       return response.data;
@@ -43,20 +48,43 @@ class ConfigService {
     }
   }
 
+  async #getCachedConfig(configType, url, dto) {
+    if (this.#feeConfig[configType]) {
+      return this.#feeConfig[configType];
+    }
+    if (!this[`#${configType}Promise`]) {
+      this[`#${configType}Promise`] = this.#getData(url).then((data) => {
+        this.#feeConfig[configType] = dto ? new dto(data) : data;
+        return this.#feeConfig[configType];
+      }).catch((error) => {
+        this[`#${configType}Promise`] = null;
+        throw error;
+      });
+    }
+    return this[`#${configType}Promise`];
+  }
+
   /**
-   * @return {CashInConfigDTO}
+   * @return {Promise<CashInConfigDTO>}
    */
-  get cashInConfig() {
-    return this.#feeConfig.cashIn;
+  async getCashInConfig() {
+    return this.#getCachedConfig('cashIn', CASH_IN, CashInConfigDTO);
   }
 
-  get cashOutNaturalConfig() {
-    return this.#feeConfig.cashOutNatural;
+  /**
+   * @return {Promise<Object>}
+   */
+  async getCashOutNaturalConfig() {
+    return this.#getCachedConfig('cashOutNatural', CASH_OUT_NATURAL);
   }
 
-  get cashOutLegalConfig() {
-    return this.#feeConfig.cashOutLegal;
+  /**
+   * @return {Promise<Object>}
+   */
+  async getCashOutLegalConfig() {
+    return this.#getCachedConfig('cashOutLegal', CASH_OUT_LEGAL);
   }
 }
 
-module.exports = ConfigService;
+// Export the singleton instance
+module.exports = ConfigService.getInstance();

@@ -1,10 +1,10 @@
 class TransactionDTO {
-    constructor(dto) {
-        this.date = this.#validateDate(dto.date);
-        this.user_id = this.#validateUserId(dto.user_id);
-        this.user_type = this.#validateUserType(dto.user_type);
-        this.type = this.#validateType(dto.type);
-        this.operation = this.#validateOperation(dto.operation);
+    constructor(data) {
+        this.date = this.#validateDate(data.date);
+        this.user_id = this.#validateUserId(data.user_id);
+        this.user_type = this.#validateUserType(data.user_type);
+        this.type = this.#validateType(data.type);
+        this.operation = this.#validateOperation(data.operation);
     }
 
     #validateDate(date) {
