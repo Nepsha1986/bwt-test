@@ -4,7 +4,7 @@ const {
   CashOutLegalCommission,
   CashOutNaturalCommission,
 } = require("../CommissionStrategy");
-const {getUserSameWeekTransactions} = require("../utils");
+const { getUserSameWeekTransactions } = require("../utils");
 
 class Transaction {
   /**
@@ -12,7 +12,7 @@ class Transaction {
    */
   #commission = {
     strategy: null,
-    related: []
+    related: [],
   };
 
   /**
@@ -49,7 +49,11 @@ class Transaction {
         break;
       case "CASH_OUT_NATURAL":
         this.#commission.strategy = new CashOutNaturalCommission();
-        this.#commission.related = getUserSameWeekTransactions(dto.user_id, dto.date, transactions);
+        this.#commission.related = getUserSameWeekTransactions(
+          dto.user_id,
+          dto.date,
+          transactions
+        );
         break;
       default:
         throw new Error("Unknown commission strategy");
@@ -71,12 +75,8 @@ class Transaction {
    * @return {Promise<number>}
    */
   async calculateCommission() {
-    try {
-      const { strategy, related } = this.#commission;
-      return strategy.calculate(this, related);
-    } catch (e) {
-      console.error('Commission calculation failed!', e)
-    }
+    const { strategy, related } = this.#commission;
+    return strategy.calculate(this, related);
   }
 }
 

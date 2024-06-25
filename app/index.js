@@ -17,6 +17,7 @@ fs.readFile(absolutePath, "utf8", async (err, data) => {
     const commissions = await feeCalculator.calculateFees();
     console.log(commissions);
   } catch (err) {
+    console.error("An error occurred", err)
     process.exit(1);
   }
 });

@@ -1,6 +1,6 @@
-const CashInCommission = require("./strategies/CashInCommission");
-const CashOutLegalCommission = require("./strategies/CashOutLegalCommission");
-const CashOutNaturalCommission = require("./strategies/CashOutNaturalCommission");
+const CashInCommission = require("./CashInCommission");
+const CashOutLegalCommission = require("./CashOutLegalCommission");
+const CashOutNaturalCommission = require("./CashOutNaturalCommission");
 
 module.exports = {
   CashInCommission,

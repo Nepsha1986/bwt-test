@@ -1,6 +1,6 @@
 const Commission = require("../Commission");
-const configService = require("../../../ConfigService/ConfigService");
-const round = require("../../../utils/round");
+const configService = require("../../ConfigService/ConfigService");
+const { round } = require("../utils");
 
 class CashOutLegalCommission extends Commission {
   async calculate(transaction) {

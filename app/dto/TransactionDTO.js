@@ -15,21 +15,21 @@ class TransactionDTO {
     return date;
   }
 
-  #validateUserId(user_id) {
-    if (!Number.isInteger(user_id)) {
+  #validateUserId(userId) {
+    if (!Number.isInteger(userId)) {
       throw new Error("User ID must be an integer");
     }
-    return user_id;
+    return userId;
   }
 
-  #validateUserType(user_type) {
+  #validateUserType(userType) {
     const validUserTypes = ["natural", "juridical"];
-    if (!validUserTypes.includes(user_type)) {
+    if (!validUserTypes.includes(userType)) {
       throw new Error(
         'Invalid user type. Expected one of: "natural", "juridical"'
       );
     }
-    return user_type;
+    return userType;
   }
 
   #validateType(type) {

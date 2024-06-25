@@ -4,15 +4,20 @@ const CashOutLegalConfigDTO = require("../dto/CashOutLegalConfigDTO");
 const CashOutNaturalConfigDTO = require("../dto/CashOutNaturalConfigDTO");
 
 const CASH_IN = "https://developers.paysera.com/tasks/api/cash-in";
-const CASH_OUT_NATURAL = "https://developers.paysera.com/tasks/api/cash-out-natural";
-const CASH_OUT_LEGAL = "https://developers.paysera.com/tasks/api/cash-out-juridical";
+const CASH_OUT_NATURAL =
+  "https://developers.paysera.com/tasks/api/cash-out-natural";
+const CASH_OUT_LEGAL =
+  "https://developers.paysera.com/tasks/api/cash-out-juridical";
 
 class ConfigService {
   static #instance = null;
+
   #feeConfig = null;
 
   #cashInPromise = null;
+
   #cashOutNaturalPromise = null;
+
   #cashOutLegalPromise = null;
 
   constructor() {
@@ -72,7 +77,7 @@ class ConfigService {
    * @return {Promise<CashInConfigDTO>}
    */
   async getCashInConfig() {
-    return this.#getCachedConfig('cashIn', CASH_IN, CashInConfigDTO);
+    return this.#getCachedConfig("cashIn", CASH_IN, CashInConfigDTO);
   }
 
   /**
