@@ -17,33 +17,19 @@ describe("CashInCommission", () => {
     });
   });
 
-  it("should calculate fee correctly when fee is less than max amount", async () => {
-    const transaction = {
-      operation: {
-        amount: 100.0,
-      },
-    };
-    const fee = await cashInCommission.calculate(transaction);
-    expect(fee).toBe(0.03);
-  });
-
-  it("should return max fee when calculated fee exceeds max amount", async () => {
-    const transaction = {
-      operation: {
-        amount: 100000.0,
-      },
-    };
-    const fee = await cashInCommission.calculate(transaction);
-    expect(fee).toBe(5);
-  });
-
-  it("should calculate fee correctly for zero amount", async () => {
-    const transaction = {
-      operation: {
-        amount: 0.0,
-      },
-    };
-    const fee = await cashInCommission.calculate(transaction);
-    expect(fee).toBe(0);
-  });
+  test.each`
+    amount      | expectedFee
+    ${100.0}    | ${0.03}
+    ${100000.0} | ${5}
+    ${0.0}      | ${0}
+  `(
+    "should calculate commission correctly for $amount amount",
+    async ({ amount, expectedFee }) => {
+      const transaction = {
+        operation: { amount },
+      };
+      const fee = await cashInCommission.calculate(transaction);
+      expect(fee).toBe(expectedFee);
+    }
+  );
 });

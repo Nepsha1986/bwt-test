@@ -1,2 +1,3 @@
-const CashInCommission = require('./CashInCommission');
+const CashInCommission = require("./CashInCommission");
+
 module.exports = CashInCommission;
