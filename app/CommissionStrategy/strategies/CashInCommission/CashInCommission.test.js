@@ -1,7 +1,7 @@
 const CashInCommission = require("./CashInCommission");
-const configService = require("../../ConfigService/ConfigService");
+const configService = require("../../../ConfigService/ConfigService");
 
-jest.mock("../../ConfigService/ConfigService");
+jest.mock("../../../ConfigService/ConfigService");
 
 describe("CashInCommission", () => {
   let cashInCommission;
