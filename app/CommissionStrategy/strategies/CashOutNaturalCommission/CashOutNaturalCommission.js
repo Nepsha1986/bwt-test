@@ -3,17 +3,23 @@ const configService = require("../../../ConfigService/ConfigService");
 const { round } = require("../../../utils");
 
 class cashOutNaturalCommission extends Commission {
-  async calculate(transaction, related) {
+  async calculate(transaction, related = []) {
     const config = await configService.getCashOutNaturalConfig();
 
-    const spentAmount = related.reduce((acc, cur) => {
-      return acc + cur.operation.amount;
-    }, 0);
+    const weekLimitAmount = config.week_limit.amount;
+    const curTransactionAmount = transaction.operation.amount;
+    const totalAmountWithCurrent = related.reduce(
+      (acc, cur) => acc + cur.operation.amount,
+      0
+    );
 
-    if(spentAmount + transaction.operation.amount < config.week_limit.amount) return 0;
+    if (totalAmountWithCurrent < weekLimitAmount) {
+      return 0;
+    }
+    const exceededAmount = totalAmountWithCurrent - weekLimitAmount;
+    const commissionAmount = Math.min(exceededAmount, curTransactionAmount);
 
-    const { amount } = transaction.operation;
-    return round(config.percents * (amount / 100));
+    return round(config.percents * (commissionAmount / 100));
   }
 }
 

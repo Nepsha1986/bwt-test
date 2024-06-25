@@ -6,7 +6,7 @@ class FeeCalculator {
    */
   transactions;
   constructor(data) {
-    this.transactions = data.map(i => new Transaction(i));
+    this.transactions = data.map(i => new Transaction(i, data));
   }
 
   /**

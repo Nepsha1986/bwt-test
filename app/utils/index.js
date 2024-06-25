@@ -1,4 +1,4 @@
 const round = require("./round");
-const getSameWeekTransactions = require("./getSameWeekTransactions");
+const getUserSameWeekTransactions = require("./getUserSameWeekTransactions");
 
-module.exports = { round, getSameWeekTransactions };
+module.exports = { round, getUserSameWeekTransactions };

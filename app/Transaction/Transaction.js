@@ -4,17 +4,22 @@ const {
   CashOutLegalCommission,
   CashOutNaturalCommission,
 } = require("../CommissionStrategy");
+const {getUserSameWeekTransactions} = require("../utils");
 
 class Transaction {
   /**
    * @type { CashInCommission | CashOutLegalCommission | CashOutNaturalCommission | null }
    */
-  #strategy = null;
+  #commission = {
+    strategy: null,
+    related: []
+  };
 
   /**
    * @param {TransactionDTO} data
+   * @param {TransactionDTO[]} transactions
    */
-  constructor(data) {
+  constructor(data, transactions) {
     const dto = new TransactionDTO(data);
 
     this.date = dto.date;
@@ -23,27 +28,28 @@ class Transaction {
     this.type = dto.type;
     this.operation = dto.operation;
 
-    this.#setCommissionStrategy(dto.type, dto.user_type);
+    this.#setCommissionStrategy(dto, transactions);
   }
 
   /**
    * Set the commission strategy based on the type.
    *
-   * @param type {"cash_in" | "cash_out"}
-   * @param userType {"juridical" | "natural"}
+   * @param dto {TransactionDTO}
+   * @param transactions {TransactionDTO[]}
    */
-  #setCommissionStrategy(type, userType) {
-    const strategy = this.#getStrategy(type, userType);
+  #setCommissionStrategy(dto, transactions) {
+    const strategy = this.#getStrategy(dto.type, dto.user_type);
 
     switch (strategy) {
       case "CASH_IN":
-        this.#strategy = new CashInCommission();
+        this.#commission.strategy = new CashInCommission();
         break;
       case "CASH_OUT_LEGAL":
-        this.#strategy = new CashOutLegalCommission();
+        this.#commission.strategy = new CashOutLegalCommission();
         break;
       case "CASH_OUT_NATURAL":
-        this.#strategy = new CashOutNaturalCommission();
+        this.#commission.strategy = new CashOutNaturalCommission();
+        this.#commission.related = getUserSameWeekTransactions(dto.user_id, dto.date, transactions);
         break;
       default:
         throw new Error("Unknown commission strategy");
@@ -65,7 +71,12 @@ class Transaction {
    * @return {Promise<number>}
    */
   async calculateCommission() {
-    return this.#strategy.calculate(this);
+    try {
+      const { strategy, related } = this.#commission;
+      return strategy.calculate(this, related);
+    } catch (e) {
+      console.error('Commission calculation failed!', e)
+    }
   }
 }
 
