@@ -1,4 +1,4 @@
-const Commission = require("../Commission");
+const Commission = require("../Commission.abstract");
 const configService = require("../../ConfigService/ConfigService");
 const { round } = require("../utils");
 

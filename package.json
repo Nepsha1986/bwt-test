@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon app app/input.json",
     "lint": "./node_modules/.bin/eslint app/**/* --fix",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",

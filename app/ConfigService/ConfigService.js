@@ -1,7 +1,7 @@
 const axios = require("axios");
-const CashInConfigDTO = require("../dto/CashInConfigDTO");
-const CashOutLegalConfigDTO = require("../dto/CashOutLegalConfigDTO");
-const CashOutNaturalConfigDTO = require("../dto/CashOutNaturalConfigDTO");
+const CashInConfigDTO = require("../dto/CashInConfig.dto");
+const CashOutLegalConfigDTO = require("../dto/CashOutLegalConfig.dto");
+const CashOutNaturalConfigDTO = require("../dto/CashOutNaturalConfig.dto");
 
 const CASH_IN = "https://developers.paysera.com/tasks/api/cash-in";
 const CASH_OUT_NATURAL =

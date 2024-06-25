@@ -1,10 +1,10 @@
-const TransactionDTO = require("../dto/TransactionDTO");
+const TransactionDTO = require("../dto/Transaction.dto");
 const {
   CashInCommission,
   CashOutLegalCommission,
   CashOutNaturalCommission,
 } = require("../CommissionStrategy");
-const { getUserSameWeekTransactions } = require("../utils");
+const { getUserSameWeekTransactions } = require("./utils");
 
 class Transaction {
   /**
