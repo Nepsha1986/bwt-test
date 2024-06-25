@@ -1,7 +1,21 @@
 {
+  "env": {
+    "es2021": true,
+    "node": true
+  },
   "extends": ["airbnb-base", "prettier"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

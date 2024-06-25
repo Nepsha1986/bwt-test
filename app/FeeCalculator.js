@@ -1,12 +1,20 @@
-const ConfigService = require("./ConfigService");
+const Transaction = require("./Transaction");
 
 class FeeCalculator {
-  constructor() {
-    this.configService = new ConfigService();
+  /**
+   * @type {Transaction[]}
+   */
+  transactions;
+  constructor(data) {
+    this.transactions = data.map(i => new Transaction(i, data));
   }
 
-  get cashInConfig() {
-    return this.configService.cashInConfig;
+  /**
+   * @return {Promise<number[]>}
+   */
+  async calculateFees() {
+    const fees = this.transactions.map((i) => i.calculateCommission());
+    return Promise.all(fees);
   }
 }
 
