@@ -1,25 +1,30 @@
 class CashOutLegalConfigDTO {
   constructor(dto) {
-    this.percents = this.validatePercents(dto.percents);
-    this.min = this.validateMin(dto.min);
+    this.percents = dto.percents;
+    this.min = dto.min;
+    this.#validate();
   }
 
-  validatePercents(percents) {
+  #validate() {
+    this.validatePercents();
+    this.validateMin();
+  }
+
+  validatePercents() {
+    const { percents } = this;
     if (typeof percents !== "number" || percents <= 0) {
       throw new Error("Percents must be a positive number");
     }
-    return percents;
   }
 
-  validateMin(min) {
-    const { amount, currency } = min;
+  validateMin() {
+    const { amount, currency } = this.min;
     if (typeof amount !== "number" || amount <= 0) {
       throw new Error("Min amount must be a positive number");
     }
     if (currency !== "EUR") {
       throw new Error('Min currency must be "EUR"');
     }
-    return min;
   }
 }
 
