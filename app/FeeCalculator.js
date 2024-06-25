@@ -1,4 +1,3 @@
-const configService = require("./ConfigService");
 const Transaction = require("./Transaction");
 
 class FeeCalculator {

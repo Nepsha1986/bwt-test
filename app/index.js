@@ -14,7 +14,8 @@ fs.readFile(absolutePath, "utf8", async (err, data) => {
   try {
     const jsonData = JSON.parse(data);
     const feeCalculator = new FeeCalculator(jsonData);
-    console.log(await feeCalculator.calculateFees());
+    const commissions = await feeCalculator.calculateFees();
+    console.log(commissions);
   } catch (err) {
     process.exit(1);
   }

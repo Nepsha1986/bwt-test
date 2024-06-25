@@ -1,11 +1,11 @@
 const axios = require("axios");
-const CashInConfigDTO = require('./dto/CashInConfigDTO');
+const CashInConfigDTO = require("../dto/CashInConfigDTO");
+const CashOutLegalConfigDTO = require("../dto/CashOutLegalConfigDTO");
+const CashOutNaturalConfigDTO = require("../dto/CashOutNaturalConfigDTO");
 
 const CASH_IN = "https://developers.paysera.com/tasks/api/cash-in";
-const CASH_OUT_NATURAL =
-    "https://developers.paysera.com/tasks/api/cash-out-natural";
-const CASH_OUT_LEGAL =
-    "https://developers.paysera.com/tasks/api/cash-out-juridical";
+const CASH_OUT_NATURAL = "https://developers.paysera.com/tasks/api/cash-out-natural";
+const CASH_OUT_LEGAL = "https://developers.paysera.com/tasks/api/cash-out-juridical";
 
 class ConfigService {
   static #instance = null;
@@ -17,7 +17,9 @@ class ConfigService {
 
   constructor() {
     if (ConfigService.#instance) {
-      throw new Error("ConfigService is a singleton class and cannot be instantiated multiple times.");
+      throw new Error(
+        "ConfigService is a singleton class and cannot be instantiated multiple times."
+      );
     }
     this.#feeConfig = {
       cashIn: null,
@@ -53,13 +55,15 @@ class ConfigService {
       return this.#feeConfig[configType];
     }
     if (!this[`#${configType}Promise`]) {
-      this[`#${configType}Promise`] = this.#getData(url).then((data) => {
-        this.#feeConfig[configType] = dto ? new dto(data) : data;
-        return this.#feeConfig[configType];
-      }).catch((error) => {
-        this[`#${configType}Promise`] = null;
-        throw error;
-      });
+      this[`#${configType}Promise`] = this.#getData(url)
+        .then((data) => {
+          this.#feeConfig[configType] = dto ? new dto(data) : data;
+          return this.#feeConfig[configType];
+        })
+        .catch((error) => {
+          this[`#${configType}Promise`] = null;
+          throw error;
+        });
     }
     return this[`#${configType}Promise`];
   }
@@ -72,17 +76,25 @@ class ConfigService {
   }
 
   /**
-   * @return {Promise<Object>}
+   * @return {Promise<CashOutNaturalConfigDTO>}
    */
   async getCashOutNaturalConfig() {
-    return this.#getCachedConfig('cashOutNatural', CASH_OUT_NATURAL);
+    return this.#getCachedConfig(
+      "cashOutNatural",
+      CASH_OUT_NATURAL,
+      CashOutNaturalConfigDTO
+    );
   }
 
   /**
-   * @return {Promise<Object>}
+   * @return {Promise<CashOutLegalConfigDTO>}
    */
   async getCashOutLegalConfig() {
-    return this.#getCachedConfig('cashOutLegal', CASH_OUT_LEGAL);
+    return this.#getCachedConfig(
+      "cashOutLegal",
+      CASH_OUT_LEGAL,
+      CashOutLegalConfigDTO
+    );
   }
 }
 
