@@ -15,7 +15,7 @@ To install the script, clone the repository and run:
 npm install
 ```
 
-This command installs all required dependencies. Ensure you are using Node.js version 12.x or higher.
+This command installs all required dependencies. Ensure you are using Node.js version 20.x or higher.
 
 ## Development
 
