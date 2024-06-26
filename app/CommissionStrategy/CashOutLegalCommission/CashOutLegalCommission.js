@@ -1,10 +1,10 @@
 const Commission = require("../Commission.abstract");
-const configService = require("../../ConfigService/ConfigService");
+const cashOutLegalConfig = require("../../ConfigService/cashOutLegalConfig");
 const { round } = require("../utils");
 
 class CashOutLegalCommission extends Commission {
   async calculate(transaction) {
-    const config = await configService.getCashOutLegalConfig();
+    const config = await cashOutLegalConfig.getConfig();
 
     const { amount } = transaction.operation;
     const fee = round(config.percents * (amount / 100));
