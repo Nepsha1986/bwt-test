@@ -1,14 +1,14 @@
 const CashInCommission = require("./CashInCommission");
-const config = require("../../ConfigService/cashInConfig");
+const { cashInConfig } = require("../../ConfigService");
 
-jest.mock("../../ConfigService/ConfigService");
+jest.mock("../../ConfigService");
 
 describe("CashInCommission", () => {
   let commission;
 
   beforeEach(() => {
     commission = new CashInCommission();
-    config.getConfig.mockResolvedValue({
+    cashInConfig.getConfig.mockResolvedValue({
       percents: 0.03,
       max: {
         amount: 5.0,

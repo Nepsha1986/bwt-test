@@ -1,14 +1,14 @@
 const CashOutNaturalCommission = require("./CashOutNaturalCommission");
-const config = require("../../ConfigService/cashOutNaturalConfig");
+const { cashOutNaturalConfig } = require("../../ConfigService");
 
-jest.mock("../../ConfigService/ConfigService");
+jest.mock("../../ConfigService");
 
 describe("cashOutNaturalCommission", () => {
   let commission;
 
   beforeEach(() => {
     commission = new CashOutNaturalCommission();
-    config.getConfig.mockResolvedValue({
+    cashOutNaturalConfig.getConfig.mockResolvedValue({
       percents: 0.3,
       week_limit: {
         amount: 1000,

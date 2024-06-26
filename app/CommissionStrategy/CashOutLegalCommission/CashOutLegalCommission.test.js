@@ -1,14 +1,14 @@
 const CashOutLegalCommission = require("./CashOutLegalCommission");
-const config = require("../../ConfigService/cashOutLegalConfig");
+const { cashOutLegalConfig } = require("../../ConfigService");
 
-jest.mock("../../ConfigService/ConfigService");
+jest.mock("../../ConfigService");
 
 describe("CashOutLegalCommission", () => {
   let commission;
 
   beforeEach(() => {
     commission = new CashOutLegalCommission();
-    config.getConfig.mockResolvedValue({
+    cashOutLegalConfig.getConfig.mockResolvedValue({
       percents: 0.3,
       min: {
         amount: 0.5,
