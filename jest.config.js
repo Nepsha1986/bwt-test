@@ -3,4 +3,5 @@ module.exports = {
         ".dto.js",
         ".abstract.js",
     ],
+    silent: true,
 };

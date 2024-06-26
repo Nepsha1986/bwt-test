@@ -1,7 +1,7 @@
 const CashOutNaturalCommission = require("./CashOutNaturalCommission");
-const { cashOutNaturalConfig } = require("../../ConfigService");
+const { cashOutNaturalConfig } = require("../configs");
 
-jest.mock("../../ConfigService");
+jest.mock("../configs");
 
 describe("cashOutNaturalCommission", () => {
   let commission;

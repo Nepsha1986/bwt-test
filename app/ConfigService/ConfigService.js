@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-class ConfigService {
-  #commissionConfig = null;
+class CommissionConfigService {
+  #config = null;
 
   #configPromise = null;
 
@@ -23,14 +23,14 @@ class ConfigService {
   }
 
   async #getCachedConfig() {
-    if (this.#commissionConfig) {
-      return this.#commissionConfig;
+    if (this.#config) {
+      return this.#config;
     }
     if (!this.#configPromise) {
       this.#configPromise = this.#getData(this.configURL)
         .then((data) => {
-          this.#commissionConfig = new this.Shape(data);
-          return this.#commissionConfig;
+          this.#config = new this.Shape(data);
+          return this.#config;
         })
         .catch((error) => {
           this.#configPromise = null;
@@ -48,4 +48,4 @@ class ConfigService {
   }
 }
 
-module.exports = ConfigService;
+module.exports = CommissionConfigService;

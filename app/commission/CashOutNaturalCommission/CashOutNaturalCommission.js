@@ -1,5 +1,5 @@
 const Commission = require("../Commission.abstract");
-const { cashOutNaturalConfig } = require("../../ConfigService");
+const { cashOutNaturalConfig } = require("../configs");
 const { round } = require("../utils");
 
 class cashOutNaturalCommission extends Commission {

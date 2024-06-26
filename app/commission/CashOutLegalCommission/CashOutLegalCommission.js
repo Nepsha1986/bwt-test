@@ -1,5 +1,5 @@
 const Commission = require("../Commission.abstract");
-const { cashOutLegalConfig } = require("../../ConfigService");
+const { cashOutLegalConfig } = require("../configs");
 const { round } = require("../utils");
 
 class CashOutLegalCommission extends Commission {

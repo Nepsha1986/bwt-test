@@ -1,6 +1,6 @@
 const Transaction = require("./Transaction");
 
-class FeeCalculator {
+class App {
   /**
    * @type {Transaction[]}
    */
@@ -18,4 +18,4 @@ class FeeCalculator {
   }
 }
 
-module.exports = FeeCalculator;
+module.exports = App;

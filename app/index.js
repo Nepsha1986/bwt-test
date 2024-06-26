@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const FeeCalculator = require("./FeeCalculator");
+const FeeCalculator = require("./App");
 
 const filePath = process.argv[2];
 if (!filePath) process.exit(1);

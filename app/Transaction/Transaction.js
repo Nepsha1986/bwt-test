@@ -3,7 +3,7 @@ const {
   CashInCommission,
   CashOutLegalCommission,
   CashOutNaturalCommission,
-} = require("../CommissionStrategy");
+} = require("../commission");
 const { getUserSameWeekTransactions } = require("./utils");
 
 class Transaction {

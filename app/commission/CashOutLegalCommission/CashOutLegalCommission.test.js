@@ -1,7 +1,7 @@
 const CashOutLegalCommission = require("./CashOutLegalCommission");
-const { cashOutLegalConfig } = require("../../ConfigService");
+const { cashOutLegalConfig } = require("../configs");
 
-jest.mock("../../ConfigService");
+jest.mock("../configs");
 
 describe("CashOutLegalCommission", () => {
   let commission;

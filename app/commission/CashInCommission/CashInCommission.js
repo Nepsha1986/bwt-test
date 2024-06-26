@@ -1,6 +1,6 @@
 const Commission = require("../Commission.abstract");
 const { round } = require("../utils");
-const { cashInConfig } = require("../../ConfigService");
+const { cashInConfig } = require("../configs");
 
 class CashInCommission extends Commission {
   async calculate(transaction) {

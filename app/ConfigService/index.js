@@ -1,5 +1,3 @@
-const cashInConfig = require("./cashInConfig");
-const cashOutLegalConfig = require("./cashOutLegalConfig");
-const cashOutNaturalConfig = require("./cashOutNaturalConfig");
+const ConfigService = require("./ConfigService");
 
-module.exports = { cashInConfig, cashOutLegalConfig, cashOutNaturalConfig };
+module.exports = ConfigService;
