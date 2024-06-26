@@ -1,4 +1,4 @@
-const TransactionDTO = require("../dto/Transaction.dto");
+const { TransactionDTO } = require("../dto");
 const {
   CashInCommission,
   CashOutLegalCommission,
@@ -8,7 +8,10 @@ const { getUserSameWeekTransactions } = require("./utils");
 
 class Transaction {
   /**
-   * @type { CashInCommission | CashOutLegalCommission | CashOutNaturalCommission | null }
+   * @type {{
+   *     strategy: CashInCommission | CashOutLegalCommission | CashOutNaturalCommission | null,
+   *     related: TransactionDTO[] | []
+   * }}
    */
   #commission = {
     strategy: null,
@@ -34,8 +37,8 @@ class Transaction {
   /**
    * Set the commission strategy based on the type.
    *
-   * @param dto {TransactionDTO}
-   * @param transactions {TransactionDTO[]}
+   * @param {TransactionDTO} dto
+   * @param {TransactionDTO[]} transactions
    */
   #setCommissionStrategy(dto, transactions) {
     const strategy = this.#getStrategy(dto.type, dto.user_type);

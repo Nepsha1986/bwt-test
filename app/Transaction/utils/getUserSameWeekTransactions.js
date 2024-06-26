@@ -1,16 +1,18 @@
 /**
  * Retrieves transactions that occurred in the same week before the specified date for a specific user.
- * @param {number} userId - Unique User ID.
- * @param {string} date - The date in "YYYY-MM-DD" format.
- * @param {Array<Object>} transactions - The array of transactions.
- * @returns {Array<Object>} - An array of transactions that occurred in the same week as the specified date for the specified user.
+ *
+ * @param {number} userId
+ * @param {string} date
+ * @param {Array<Object>} transactions
+ *
+ * @returns {Array<Object>}
  */
 const getUserSameWeekTransactions = (userId, date, transactions) => {
   const targetDate = new Date(date);
 
   const startDate = new Date(targetDate);
   const dayOfWeek = startDate.getDay();
-  const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Adjust for Sunday
+  const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
   startDate.setDate(startDate.getDate() + diffToMonday);
 
   const endDate = new Date(startDate);
@@ -21,9 +23,11 @@ const getUserSameWeekTransactions = (userId, date, transactions) => {
     return (
       transaction.user_id === userId &&
       transactionDate >= startDate &&
-      transactionDate < targetDate
+      transactionDate <= targetDate
     );
   });
 };
+
+module.exports = getUserSameWeekTransactions;
 
 module.exports = getUserSameWeekTransactions;
