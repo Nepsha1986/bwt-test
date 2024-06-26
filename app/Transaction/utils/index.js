@@ -1,4 +1,4 @@
-const getUserSameWeekTransactions = require("./getUserSameWeekTransactions");
+const getCashOutNaturalRelated = require("./getCashOutNaturalRelated");
 const getCommissionStrategy = require("./getCommissionStrategy");
 
-module.exports = { getUserSameWeekTransactions, getCommissionStrategy };
+module.exports = { getCashOutNaturalRelated, getCommissionStrategy };

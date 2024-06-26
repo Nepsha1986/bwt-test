@@ -4,10 +4,7 @@ const {
   CashOutLegalCommission,
   CashOutNaturalCommission,
 } = require("../commission");
-const {
-  getUserSameWeekTransactions,
-  getCommissionStrategy,
-} = require("./utils");
+const { getCashOutNaturalRelated, getCommissionStrategy } = require("./utils");
 
 class Transaction {
   /**
@@ -55,11 +52,7 @@ class Transaction {
         break;
       case "CASH_OUT_NATURAL":
         this.#commission.calculate = CashOutNaturalCommission.calculate;
-        this.#commission.related = getUserSameWeekTransactions(
-          dto.user_id,
-          dto.date,
-          transactions
-        );
+        this.#commission.related = getCashOutNaturalRelated(dto, transactions);
         break;
       default:
         throw new Error("Unknown commission strategy");
