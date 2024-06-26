@@ -42,7 +42,7 @@ class CommissionConfigService {
   }
 
   /**
-   * @return {Promise<any>}
+   * @return {Promise<Object>}
    */
   async getConfig() {
     return this.#getCachedConfig();

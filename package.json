@@ -2,9 +2,9 @@
   "name": "bwt-test",
   "version": "1.0.0",
   "description": "",
-  "main": "app/index.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon app app/input.json",
+    "dev": "nodemon index.js input.json",
     "lint": "./node_modules/.bin/eslint app/**/* --fix",
     "test": "jest --coverage",
     "check": "npm run lint && npm run test"
