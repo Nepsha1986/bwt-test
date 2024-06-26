@@ -1,9 +1,8 @@
 /**
+ * @param {number} number
+ * @param {number} [decimals=2]
  *
- * @param number {number}
- * @param decimals {number}
- *
- * @return {number}
+ * @returns {number}
  */
 function round(number, decimals = 2) {
   const factor = 10 ** decimals;

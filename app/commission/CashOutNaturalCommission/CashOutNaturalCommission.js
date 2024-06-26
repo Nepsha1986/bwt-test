@@ -1,10 +1,10 @@
-const Commission = require("../Commission");
-const configService = require("../../../ConfigService/ConfigService");
-const { round } = require("../../../utils");
+const Commission = require("../Commission.abstract");
+const { cashOutNaturalConfig } = require("../configs");
+const { round } = require("../utils");
 
 class cashOutNaturalCommission extends Commission {
-  async calculate(transaction, related = []) {
-    const config = await configService.getCashOutNaturalConfig();
+  static async calculate(transaction, related = []) {
+    const config = await cashOutNaturalConfig.getConfig();
 
     const weekLimitAmount = config.week_limit.amount;
     const curTransactionAmount = transaction.operation.amount;

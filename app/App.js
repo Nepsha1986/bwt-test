@@ -1,6 +1,6 @@
 const Transaction = require("./Transaction");
 
-class FeeCalculator {
+class App {
   /**
    * @type {Transaction[]}
    */
@@ -14,8 +14,12 @@ class FeeCalculator {
    */
   async calculateFees() {
     const fees = this.transactions.map((i) => i.calculateCommission());
-    return Promise.all(fees);
+    this.fees = await Promise.all(fees);
+  }
+
+  logFees() {
+    console.log(this.fees.map(i => i.toFixed(2)).join('\n'));
   }
 }
 
-module.exports = FeeCalculator;
+module.exports = App;

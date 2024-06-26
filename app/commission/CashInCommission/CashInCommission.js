@@ -1,10 +1,10 @@
-const Commission = require("../Commission");
-const round = require("../../../utils/round");
-const configService = require("../../../ConfigService/ConfigService");
+const Commission = require("../Commission.abstract");
+const { round } = require("../utils");
+const { cashInConfig } = require("../configs");
 
 class CashInCommission extends Commission {
-  async calculate(transaction) {
-    const config = await configService.getCashInConfig();
+  static async calculate(transaction) {
+    const config = await cashInConfig.getConfig();
 
     const { amount } = transaction.operation;
     const fee = round(config.percents * (amount / 100));

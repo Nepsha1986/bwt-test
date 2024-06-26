@@ -1,18 +1,21 @@
-const TransactionDTO = require("../dto/TransactionDTO");
+const { TransactionDTO } = require("../dto");
 const {
   CashInCommission,
   CashOutLegalCommission,
   CashOutNaturalCommission,
-} = require("../CommissionStrategy");
-const {getUserSameWeekTransactions} = require("../utils");
+} = require("../commission");
+const { getCashOutNaturalRelated, getCommissionStrategy } = require("./utils");
 
 class Transaction {
   /**
-   * @type { CashInCommission | CashOutLegalCommission | CashOutNaturalCommission | null }
+   * @type {{
+   *     calculate: Function,
+   *     related: TransactionDTO[] | []
+   * }}
    */
   #commission = {
-    strategy: null,
-    related: []
+    calculate: null,
+    related: [],
   };
 
   /**
@@ -32,38 +35,28 @@ class Transaction {
   }
 
   /**
-   * Set the commission strategy based on the type.
+   * Set the commission strategy based on the transaction.
    *
-   * @param dto {TransactionDTO}
-   * @param transactions {TransactionDTO[]}
+   * @param {TransactionDTO} dto
+   * @param {TransactionDTO[]} transactions
    */
   #setCommissionStrategy(dto, transactions) {
-    const strategy = this.#getStrategy(dto.type, dto.user_type);
+    const strategy = getCommissionStrategy(dto.type, dto.user_type);
 
     switch (strategy) {
       case "CASH_IN":
-        this.#commission.strategy = new CashInCommission();
+        this.#commission.calculate = CashInCommission.calculate;
         break;
       case "CASH_OUT_LEGAL":
-        this.#commission.strategy = new CashOutLegalCommission();
+        this.#commission.calculate = CashOutLegalCommission.calculate;
         break;
       case "CASH_OUT_NATURAL":
-        this.#commission.strategy = new CashOutNaturalCommission();
-        this.#commission.related = getUserSameWeekTransactions(dto.user_id, dto.date, transactions);
+        this.#commission.calculate = CashOutNaturalCommission.calculate;
+        this.#commission.related = getCashOutNaturalRelated(dto, transactions);
         break;
       default:
         throw new Error("Unknown commission strategy");
     }
-  }
-
-  #getStrategy(type, userType) {
-    if (type === "cash_in") return "CASH_IN";
-    if (type === "cash_out" && userType === "juridical")
-      return "CASH_OUT_LEGAL";
-    if (type === "cash_out" && userType === "natural")
-      return "CASH_OUT_NATURAL";
-
-    return null;
   }
 
   /**
@@ -71,12 +64,8 @@ class Transaction {
    * @return {Promise<number>}
    */
   async calculateCommission() {
-    try {
-      const { strategy, related } = this.#commission;
-      return strategy.calculate(this, related);
-    } catch (e) {
-      console.error('Commission calculation failed!', e)
-    }
+    const { calculate, related } = this.#commission;
+    return calculate(this, related);
   }
 }
 
