@@ -4,10 +4,7 @@ const { cashInConfig } = require("../configs");
 jest.mock("../configs");
 
 describe("CashInCommission", () => {
-  let commission;
-
   beforeEach(() => {
-    commission = new CashInCommission();
     cashInConfig.getConfig.mockResolvedValue({
       percents: 0.03,
       max: {
@@ -28,7 +25,7 @@ describe("CashInCommission", () => {
       const transaction = {
         operation: { amount },
       };
-      const fee = await commission.calculate(transaction);
+      const fee = await CashInCommission.calculate(transaction);
       expect(fee).toBe(expectedFee);
     }
   );

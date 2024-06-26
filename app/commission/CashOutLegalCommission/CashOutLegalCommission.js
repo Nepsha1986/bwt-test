@@ -3,7 +3,7 @@ const { cashOutLegalConfig } = require("../configs");
 const { round } = require("../utils");
 
 class CashOutLegalCommission extends Commission {
-  async calculate(transaction) {
+  static async calculate(transaction) {
     const config = await cashOutLegalConfig.getConfig();
 
     const { amount } = transaction.operation;

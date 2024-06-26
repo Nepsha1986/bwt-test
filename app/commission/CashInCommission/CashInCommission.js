@@ -3,7 +3,7 @@ const { round } = require("../utils");
 const { cashInConfig } = require("../configs");
 
 class CashInCommission extends Commission {
-  async calculate(transaction) {
+  static async calculate(transaction) {
     const config = await cashInConfig.getConfig();
 
     const { amount } = transaction.operation;

@@ -4,10 +4,7 @@ const { cashOutLegalConfig } = require("../configs");
 jest.mock("../configs");
 
 describe("CashOutLegalCommission", () => {
-  let commission;
-
   beforeEach(() => {
-    commission = new CashOutLegalCommission();
     cashOutLegalConfig.getConfig.mockResolvedValue({
       percents: 0.3,
       min: {
@@ -28,7 +25,7 @@ describe("CashOutLegalCommission", () => {
       const transaction = {
         operation: { amount },
       };
-      const fee = await commission.calculate(transaction);
+      const fee = await CashOutLegalCommission.calculate(transaction);
       expect(fee).toBe(expectedFee);
     }
   );

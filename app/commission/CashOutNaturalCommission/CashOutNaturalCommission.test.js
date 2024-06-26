@@ -4,10 +4,7 @@ const { cashOutNaturalConfig } = require("../configs");
 jest.mock("../configs");
 
 describe("cashOutNaturalCommission", () => {
-  let commission;
-
   beforeEach(() => {
-    commission = new CashOutNaturalCommission();
     cashOutNaturalConfig.getConfig.mockResolvedValue({
       percents: 0.3,
       week_limit: {
@@ -31,7 +28,7 @@ describe("cashOutNaturalCommission", () => {
       const transaction = {
         operation: { amount: transactionAmount },
       };
-      const fee = await commission.calculate(transaction, [
+      const fee = await CashOutNaturalCommission.calculate(transaction, [
         ...relatedTransactions,
         transaction,
       ]);

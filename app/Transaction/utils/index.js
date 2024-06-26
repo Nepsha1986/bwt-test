@@ -1,3 +1,4 @@
 const getUserSameWeekTransactions = require("./getUserSameWeekTransactions");
+const getCommissionStrategy = require("./getCommissionStrategy");
 
-module.exports = { getUserSameWeekTransactions };
+module.exports = { getUserSameWeekTransactions, getCommissionStrategy };

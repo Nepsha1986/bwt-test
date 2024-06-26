@@ -9,7 +9,8 @@ class Commission {
    *
    * @return {Promise<number>}
    */
-  calculate(transaction, related) {
+  // eslint-disable-next-line
+  static async calculate(transaction, related) {
     throw new Error("Method 'calculate()' must be implemented.");
   }
 }

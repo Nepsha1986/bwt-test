@@ -3,7 +3,7 @@ const { cashOutNaturalConfig } = require("../configs");
 const { round } = require("../utils");
 
 class cashOutNaturalCommission extends Commission {
-  async calculate(transaction, related = []) {
+  static async calculate(transaction, related = []) {
     const config = await cashOutNaturalConfig.getConfig();
 
     const weekLimitAmount = config.week_limit.amount;
